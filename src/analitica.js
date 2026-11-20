@@ -73,3 +73,34 @@ console.log("Ventas por ciudad (Medellín):", ventasPorCiudad(ventas, "Medellín
 console.log("Ventas por ciudad (Bogotá):", ventasPorCiudad(ventas, "Bogotá"));
 console.log("Ventas por ciudad (Cali):", ventasPorCiudad(ventas, "Cali"));
 console.log("Ventas por ciudad (Pereira):", ventasPorCiudad(ventas, "Pereira"));
+ console.table(ventas)
+
+ //________________________________________________________________________
+
+
+//Métodos minireto 3 Día 1
+
+//totalVendidoM (método)
+const totalVendidoM = ventas.reduce((acumulado, venta) => {
+  return acumulado + (venta.cantidad * venta.precio);
+}, 0);
+
+console.log("Total vendido: ",totalVendidoM);
+
+//unidadesVendidasM
+
+const unidadesVendidasM = ventas.reduce((acumulado, venta) => {
+  return acumulado + (venta.cantidad); 
+}, 0);
+
+console.log("Unidades vendidas:",unidadesVendidasM);
+
+//ventasPorCiudadM
+
+const ventasPorCiudadM = ventas.reduce((acc, v) => {
+  const monto = v.cantidad * v.precio;
+  acc[v.ciudad] = (acc[v.ciudad] || 0) + monto;
+  return acc;
+}, {});
+
+console.log(ventasPorCiudadM)
