@@ -214,6 +214,34 @@ function primeraVenta(ventas, contador) {
 }
 
 
+function clientesRecurrentes(ventas) {
+
+    const recurrentes = [];
+
+    for (let i = 0; i < ventas.length; i++) {
+
+        for (let j = i + 1; j < ventas.length; j++) {
+
+            if (
+                ventas[i].cliente === ventas[j].cliente &&
+                !recurrentes.includes(ventas[i].cliente)
+            ) {
+
+                recurrentes.push(ventas[i].cliente);
+
+            }
+        }
+    }
+
+    return recurrentes;
+}
+console.log(
+    "Clientes recurrentes:",
+    clientesRecurrentes(ventas)
+);
+
+
+
 module.exports = {
   totalVendido,
   totalVendidoM,
@@ -228,7 +256,9 @@ module.exports = {
   totalVendidoInstrumentado,
   ventaMayorInstrumentada,
   totalPorCiudad,
-  primeraVenta
+  primeraVenta,
+  clientesRecurrentes,
+  
 };
 
 // Minireto 4 dia 1

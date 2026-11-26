@@ -150,3 +150,50 @@ Al realizar las mediciones con diferentes cantidades de ventas, pude comprobar q
 Por otra parte, la función primeraVenta mantiene siempre dos operaciones, independientemente de si el arreglo contiene 100 o 100.000 elementos. Esto demuestra que su comportamiento es constante y corresponde a una complejidad O(1).
 
 Los resultados obtenidos coinciden con mis predicciones iniciales. Además, pude identificar que dos funciones pueden tener la misma complejidad algorítmica aunque realicen diferentes cantidades de operaciones, como sucede con totalVendido frente a ventaMayor y totalPorCiudad.
+
+## Día 2 Minireto 6
+
+const ventas = [
+    { id: 1, cliente: "C01" },
+    { id: 2, cliente: "C02" },
+    { id: 3, cliente: "C01" },
+    { id: 4, cliente: "C03" },
+    { id: 5, cliente: "C02" }
+];
+
+Comparación	Clientes	¿Son iguales?
+    1	    C01 - C02	No
+    2	    C01 - C01	Sí
+    3	    C01 - C03	No
+    4	    C01 - C02	No
+    5	    C02 - C01	No
+    6	    C02 - C03	No
+    7	    C02 - C02	Sí
+    8	    C01 - C03	No
+    9	    C01 - C02	No
+    10	    C03 - C02	No
+
+    Al realizar la traza con un arreglo de cinco ventas, identifiqué que la función realiza diez comparaciones entre los clientes. Esto ocurre porque el primer ciclo selecciona una venta y el segundo ciclo la compara únicamente con las ventas posteriores. Al generalizar este comportamiento, determiné que el número de comparaciones corresponde a la fórmula n(n-1)/2, donde n representa la cantidad de ventas. Por lo tanto, la cantidad de comparaciones aumenta considerablemente cuando crece el tamaño del arreglo.
+
+Al analizar los tiempos de ejecución, espero observar que, cuando se duplica la cantidad de ventas, el tiempo aumenta aproximadamente cuatro veces. Esto se debe a que la función utiliza dos ciclos anidados y realiza comparaciones entre los diferentes pares de ventas. Este comportamiento corresponde al crecimiento cuadrático O(n²), lo que explica por qué el algoritmo puede funcionar correctamente con pocos registros, pero presentar problemas de rendimiento cuando se procesa un historial de ventas mucho más grande.
+
+Identifiqué que el método includes() representa un costo adicional porque debe recorrer el arreglo de clientes recurrentes para comprobar si un cliente ya fue registrado. Esta búsqueda se encuentra dentro de los dos ciclos anidados, por lo que puede aumentar considerablemente el tiempo de ejecución. En el peor caso, dependiendo de la distribución y el orden de las ventas, este costo adicional puede llevar la complejidad del algoritmo hasta O(n³). Una posible solución sería utilizar un conjunto Set, que permite realizar búsquedas de elementos con un costo promedio constante.
+
+Al realizar las mediciones observé que, cuando se duplica la cantidad de ventas, el tiempo de ejecución aumenta considerablemente. En las pruebas realizadas, el tiempo pasó de 4,873 ms con 1.000 ventas a 976,515 ms con 16.000 ventas.
+
+En un algoritmo de complejidad O(n²), se espera que el tiempo aumente aproximadamente cuatro veces cuando se duplica la cantidad de datos. Sin embargo, mis últimas mediciones mostraron un incremento de hasta 5,41 veces.
+
+Esto puede explicarse por el costo adicional del método includes(), que también debe buscar elementos dentro del arreglo de clientes recurrentes. Por esta razón, el algoritmo puede presentar un rendimiento inferior al esperado para una función cuadrática.
+
+Utilizando los resultados obtenidos, estimé que el procesamiento de 100.000 ventas podría tardar aproximadamente 84,71 segundos, tomando como referencia el crecimiento observado en la última medición. Para un millón de ventas, la estimación bajo ese mismo modelo sería de aproximadamente 6,4 horas.
+
+
+## Conclusión para la gerente
+
+El reporte de clientes recurrentes funciona correctamente, pero presenta problemas de rendimiento cuando aumenta la cantidad de ventas que debe analizar. Esto sucede porque el sistema compara las ventas entre sí para identificar cuáles pertenecen al mismo cliente y, adicionalmente, realiza búsquedas para evitar registrar clientes repetidos. Como resultado, mientras más grande sea el historial de ventas, mucho más tiempo necesita el sistema para generar el reporte.
+
+Por esta razón, se recomienda optimizar el proceso de búsqueda de clientes antes de utilizarlo con historiales de gran tamaño. De esta manera, podremos generar los reportes en menos tiempo y ofrecer una mejor experiencia a las personas que utilizan el sistema.
+
+## Que hice yo vs que hizo la IA
+
+Durante el desarrollo de las actividades de algoritmia he utilizado ChatGPT como herramienta de apoyo para realizar los ejercicios, analizar los algoritmos, comprender las funciones y desarrollar los códigos solicitados. Quiero ser transparente al respecto: personalmente, todavía tengo dificultades con este tipo de análisis, especialmente cuando involucran funciones matemáticas, cálculos de complejidad y estimaciones de rendimiento. Mi participación ha consistido en plantear las actividades, proporcionar los datos y resultados obtenidos en mi computador, ejecutar las pruebas y solicitar explicaciones paso a paso sobre cada procedimiento. Aunque he logrado comprender algunos conceptos y entender la lógica general de los ejercicios, reconozco que todavía hay otros temas que no domino completamente y que necesito seguir estudiando y practicando.
