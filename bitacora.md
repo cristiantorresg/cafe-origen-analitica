@@ -230,3 +230,16 @@ Recorridos, arreglos y complejidad
 Al comparar las dos funciones (ventasPorCiudadM, topProductosPorValor), observé que ambas tienen una complejidad temporal O(n), porque el tiempo de ejecución aumenta proporcionalmente a la cantidad de ventas que deben procesar. La diferencia está en la cantidad de recorridos que realizan. La versión encadenada utiliza cuatro métodos (map, filter, map y reduce), mientras que la versión de una pasada utiliza un solo ciclo. Aunque la primera realiza más recorridos, en la notación Big O se eliminan las constantes, por lo que O(4n) se simplifica a O(n). Sin embargo, la versión encadenada necesita crear tres arreglos intermedios, lo que aumenta el consumo de memoria. En cambio, la versión de una pasada realiza las operaciones directamente y utiliza memoria adicional constante O(1).
 
 Decidí conservar la función totalCiudadUnaPasada en el motor porque considero que es la alternativa más conveniente para el funcionamiento de la plataforma. Aunque ambas versiones tienen una complejidad temporal O(n) y entregan el mismo resultado, la versión de una pasada utiliza menos memoria, ya que no necesita crear arreglos intermedios ni realizar varios recorridos. Teniendo en cuenta que el marketplace funcionará en un servidor con recursos de memoria limitados, considero que es más importante optimizar el consumo de recursos sin afectar el resultado del reporte. La versión encadenada sigue siendo una alternativa válida cuando se prioriza la legibilidad del código, pero para este caso prefiero la eficiencia espacial.
+
+
+ ## Dia 2 minireto 8
+
+ Durante la jornada asumí nuevamente el rol de auditor en el desarrollo del minireto 8. Mi participación consistió en revisar y evaluar las respuestas proporcionadas por la inteligencia artificial, solicitándole explicaciones sobre el funcionamiento del código y los procedimientos utilizados para resolver el ejercicio.
+
+Durante la auditoría, identifiqué que, aunque la IA proporcionaba explicaciones sobre la notación Big O y la complejidad algorítmica, todavía presentaba dificultades para comprender cómo aplicar estos conceptos en situaciones prácticas y cómo relacionarlos directamente con el comportamiento de los algoritmos al procesar diferentes cantidades de datos.
+
+Por esta razón, solicité explicaciones adicionales para intentar comprender cómo se identifica el crecimiento del tiempo de ejecución y cómo se interpreta la complejidad de un algoritmo. También reconocí la importancia de no limitarme a aceptar las respuestas de la IA, sino de cuestionarlas, verificar su lógica y buscar una comprensión real de los procedimientos utilizados.
+
+Dificultades identificadas
+
+La principal dificultad estuvo relacionada con la interpretación práctica de la notación Big O. Aunque puedo reconocer algunas complejidades, como O(n) y O(n²), todavía me cuesta comprender cómo se traducen en el rendimiento real de un programa y cómo determinar cuál es más eficiente al aumentar el volumen de datos.
