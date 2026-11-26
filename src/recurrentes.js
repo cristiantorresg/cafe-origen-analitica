@@ -9,7 +9,7 @@ const { performance } = require("node:perf_hooks");
 
 
 // Cantidades de ventas que vamos a medir
-const cantidades = [1000, 2000, 4000, 8000, 16000];
+const cantidades = [1000, 2000, 4000, 8000,10000, 16000];
 
 
 // Arreglo para guardar los resultados

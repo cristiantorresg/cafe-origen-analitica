@@ -67,7 +67,7 @@ function generarVentas(n) {
     return ventas;
 }
 const ventas = generarVentas(10000);
-
+console.log("Cantidad de ventas:", ventas.length);
 const resultadoCadena = totalCiudadCadena(ventas, "Medellín");
 const resultadoUnaPasada = totalCiudadUnaPasada(ventas, "Medellín");
 

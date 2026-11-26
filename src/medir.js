@@ -71,3 +71,4 @@ console.log(
 
 // Mostrar la tabla
 console.table(resultados);
+
