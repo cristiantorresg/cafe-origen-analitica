@@ -135,6 +135,84 @@ function topProductosPorValor(ventas, k) {
 }
 console.log(" Top productos por valor: ", topProductosPorValor(ventas, 3))
 
+// TOTAL VENDIDO INSTRUMENTADO
+
+function totalVendidoInstrumentado(ventas, contador) {
+
+    let total = 0;
+
+    for (const v of ventas) {
+
+        contador.operaciones++;
+
+        total += valorVenta(v);
+    }
+
+    return total;
+}
+
+
+// VENTA MAYOR INSTRUMENTADA
+
+function ventaMayorInstrumentada(ventas, contador) {
+
+    if (ventas.length === 0) return null;
+
+    let mayor = ventas[0];
+
+    for (const v of ventas) {
+
+        contador.operaciones++; // Visitar un elemento
+
+        contador.operaciones++; // Comparar valores
+
+        if (valorVenta(v) > valorVenta(mayor)) {
+            mayor = v;
+        }
+    }
+
+    return mayor;
+}
+
+
+// TOTAL POR CIUDAD INSTRUMENTADO
+
+function totalPorCiudad(ventas, ciudad, contador) {
+
+    const ciudadBuscada = normalizarTexto(ciudad);
+
+    let total = 0;
+
+    for (const v of ventas) {
+
+        contador.operaciones++; // Visitar un elemento
+
+        contador.operaciones++; // Comparar ciudades
+
+        if (normalizarTexto(v.ciudad) === ciudadBuscada) {
+            total += valorVenta(v);
+        }
+    }
+
+    return total;
+}
+
+
+// PRIMERA VENTA (COMPLEJIDAD CONSTANTE)
+
+function primeraVenta(ventas, contador) {
+
+    contador.operaciones++; // Comparar si el arreglo está vacío
+
+    if (ventas.length === 0) {
+        return null;
+    }
+
+    contador.operaciones++; // Acceder a la primera venta
+
+    return ventas[0];
+}
+
 
 module.exports = {
   totalVendido,
@@ -147,6 +225,10 @@ module.exports = {
   ventasPorCiudadM,
   unidadesPorProducto,
   topProductosPorValor,
+  totalVendidoInstrumentado,
+  ventaMayorInstrumentada,
+  totalPorCiudad,
+  primeraVenta
 };
 
 // Minireto 4 dia 1

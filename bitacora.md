@@ -132,3 +132,21 @@ Casos borde detectados
 * **Prueba realizada:** Se evaluó `ventasDelDia(ventas, "2026-09-10")` (que entrega `cantidadVentas: 0`, `unidades: 0`, `total: 0`) y `ticketPromedio` en `analitica.js`, confirmando que devuelven `0` y no `NaN`.
 * **Causa:** Falta de validación para evitar dividir entre cero cuando el número de ventas es `0`.
 * **Corrección:** Validar que existan ventas (`cantidadVentas > 0` / `ventasValidas > 0`) antes de dividir y devolver `0` cuando no hay ventas, evitando `NaN`.
+
+## Día 2 minireto 5
+
+Predicción del comportamiento de las funciones
+
+Considero que las funciones totalVendido, ventaMayor y totalPorCiudad presentan un crecimiento proporcional a la cantidad de elementos del arreglo, debido a que utilizan ciclos que recorren las ventas. Por lo tanto, si la cantidad de ventas aumenta 10 veces, espero que sus operaciones también aumenten aproximadamente 10 veces.
+
+En cambio, considero que primeraVenta mantiene una cantidad constante de operaciones, porque únicamente comprueba si el arreglo está vacío y accede a su primera posición, sin importar cuántos elementos contenga.
+
+Según esta predicción, espero que totalVendido, ventaMayor y totalPorCiudad tengan complejidad O(n), mientras que primeraVenta tenga complejidad O(1).
+
+Análisis y comparación de resultados
+
+Al realizar las mediciones con diferentes cantidades de ventas, pude comprobar que las funciones totalVendido, ventaMayor y totalPorCiudad presentan un crecimiento proporcional al tamaño del arreglo. Cuando la cantidad de ventas aumenta diez veces, el número de operaciones también aumenta diez veces, lo que confirma su complejidad O(n).
+
+Por otra parte, la función primeraVenta mantiene siempre dos operaciones, independientemente de si el arreglo contiene 100 o 100.000 elementos. Esto demuestra que su comportamiento es constante y corresponde a una complejidad O(1).
+
+Los resultados obtenidos coinciden con mis predicciones iniciales. Además, pude identificar que dos funciones pueden tener la misma complejidad algorítmica aunque realicen diferentes cantidades de operaciones, como sucede con totalVendido frente a ventaMayor y totalPorCiudad.
