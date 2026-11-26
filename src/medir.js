@@ -5,7 +5,9 @@ const {
     totalVendidoInstrumentado,
     ventaMayorInstrumentada,
     totalPorCiudad,
-    primeraVenta
+    primeraVenta,
+    totalCiudadCadena,
+    totalCiudadUnaPasada
 } = require("./analitica");
 
 
@@ -52,6 +54,20 @@ for (const n of cantidades) {
 
 }
 
+
+
+const ventas = generarVentas(10000);
+
+const resultadoCadena = totalCiudadCadena(ventas, "Medellín");
+const resultadoUnaPasada = totalCiudadUnaPasada(ventas, "Medellín");
+
+console.log("Resultado con métodos encadenados:", resultadoCadena);
+console.log("Resultado con un solo ciclo:", resultadoUnaPasada);
+
+console.log(
+  "¿Los resultados son iguales?",
+  resultadoCadena === resultadoUnaPasada
+);
 
 // Mostrar la tabla
 console.table(resultados);

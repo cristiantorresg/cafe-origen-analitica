@@ -1,3 +1,8 @@
+const {
+  totalCiudadCadena,
+  totalCiudadUnaPasada
+} = require("./analitica");
+
 
 // Listas fijas de productos y sus precios
 const productos = [
@@ -61,7 +66,18 @@ function generarVentas(n) {
 
     return ventas;
 }
+const ventas = generarVentas(10000);
 
+const resultadoCadena = totalCiudadCadena(ventas, "Medellín");
+const resultadoUnaPasada = totalCiudadUnaPasada(ventas, "Medellín");
+
+console.log("Resultado con métodos encadenados:", resultadoCadena);
+console.log("Resultado con un solo ciclo:", resultadoUnaPasada);
+
+console.log(
+  "¿Los resultados son iguales?",
+  resultadoCadena === resultadoUnaPasada
+);
 module.exports = {
     generarVentas
 };

@@ -197,3 +197,36 @@ Por esta razón, se recomienda optimizar el proceso de búsqueda de clientes ant
 ## Que hice yo vs que hizo la IA
 
 Durante el desarrollo de las actividades de algoritmia he utilizado ChatGPT como herramienta de apoyo para realizar los ejercicios, analizar los algoritmos, comprender las funciones y desarrollar los códigos solicitados. Quiero ser transparente al respecto: personalmente, todavía tengo dificultades con este tipo de análisis, especialmente cuando involucran funciones matemáticas, cálculos de complejidad y estimaciones de rendimiento. Mi participación ha consistido en plantear las actividades, proporcionar los datos y resultados obtenidos en mi computador, ejecutar las pruebas y solicitar explicaciones paso a paso sobre cada procedimiento. Aunque he logrado comprender algunos conceptos y entender la lógica general de los ejercicios, reconozco que todavía hay otros temas que no domino completamente y que necesito seguir estudiando y practicando.
+
+
+## Dia 2 minireto 7
+
+Recorridos, arreglos y complejidad
+        Característica         	totalCiudadCadena	        totalCiudadUnaPasada
+        Recorridos	                4 etapas	                   1 ciclo
+        Arreglos nuevos	            3	                              0
+        Tiempo	                    O(n)	                         O(n)
+        Espacio adicional	        O(n)	                         O(1)
+
+    Complejidad espacial de las funciones del motor
+
+    Función	            Espacio           	¿Por qué?
+    valorVenta	          O(1)	        Calcula y devuelve un número.
+    normalizarTexto	      O(1)*	        No crea estructuras proporcionales al número de ventas.
+    totalVendido	      O(1)	        Solo mantiene un acumulador.
+    totalVendidoM	      O(1)	        reduce acumula un número.
+    unidadesVendidas	  O(1)	        Solo mantiene un acumulador.
+    unidadesVendidasM	  O(1)	        reduce acumula un número.
+    ventaMayor	          O(1)	        Guarda una referencia a la venta mayor.
+    ticketPromedio	      O(1)	        Mantiene dos variables acumuladoras.
+    ventasPorCiudad	      O(1)	        Recorre las ventas y acumula el total.
+    ventasPorCiudadM	  O(n)	        filter crea un arreglo con las ventas que coinciden.
+    unidadesPorProducto	  O(n)	        Crea un objeto con los productos y sus cantidades acumuladas.
+    topProductosPorValor  O(n)	        Crea un objeto, un arreglo con Object.entries y otro con slice.
+    totalCiudadCadena	  O(n)	        Crea tres arreglos intermedios.
+    totalCiudadUnaPasada  O(1)	        Solo utiliza variables acumuladoras.
+
+
+Al comparar las dos funciones (ventasPorCiudadM, topProductosPorValor), observé que ambas tienen una complejidad temporal O(n), porque el tiempo de ejecución aumenta proporcionalmente a la cantidad de ventas que deben procesar. La diferencia está en la cantidad de recorridos que realizan. La versión encadenada utiliza cuatro métodos (map, filter, map y reduce), mientras que la versión de una pasada utiliza un solo ciclo. Aunque la primera realiza más recorridos, en la notación Big O se eliminan las constantes, por lo que O(4n) se simplifica a O(n). Sin embargo, la versión encadenada necesita crear tres arreglos intermedios, lo que aumenta el consumo de memoria. En cambio, la versión de una pasada realiza las operaciones directamente y utiliza memoria adicional constante O(1).
+
+Decidí conservar la función totalCiudadUnaPasada en el motor porque considero que es la alternativa más conveniente para el funcionamiento de la plataforma. Aunque ambas versiones tienen una complejidad temporal O(n) y entregan el mismo resultado, la versión de una pasada utiliza menos memoria, ya que no necesita crear arreglos intermedios ni realizar varios recorridos. Teniendo en cuenta que el marketplace funcionará en un servidor con recursos de memoria limitados, considero que es más importante optimizar el consumo de recursos sin afectar el resultado del reporte. La versión encadenada sigue siendo una alternativa válida cuando se prioriza la legibilidad del código, pero para este caso prefiero la eficiencia espacial.

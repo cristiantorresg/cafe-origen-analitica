@@ -240,7 +240,33 @@ console.log(
     clientesRecurrentes(ventas)
 );
 
+// Total por ciudad usando map, filter, map y reduce
+function totalCiudadCadena(ventas, ciudad) {
+  const ciudadBuscada = normalizarTexto(ciudad);
 
+  return ventas
+    .map((venta) => ({
+      ...venta,
+      ciudadNormalizada: normalizarTexto(venta.ciudad)
+    }))
+    .filter((venta) => venta.ciudadNormalizada === ciudadBuscada)
+    .map((venta) => valorVenta(venta))
+    .reduce((total, valor) => total + valor, 0);
+}
+
+// Total por ciudad usando un solo ciclo
+function totalCiudadUnaPasada(ventas, ciudad) {
+  const ciudadBuscada = normalizarTexto(ciudad);
+  let total = 0;
+
+  for (const venta of ventas) {
+    if (normalizarTexto(venta.ciudad) === ciudadBuscada) {
+      total += valorVenta(venta);
+    }
+  }
+
+  return total;
+}
 
 module.exports = {
   totalVendido,
@@ -258,6 +284,8 @@ module.exports = {
   totalPorCiudad,
   primeraVenta,
   clientesRecurrentes,
+  totalCiudadCadena,
+  totalCiudadUnaPasada
   
 };
 
