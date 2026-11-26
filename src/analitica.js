@@ -97,10 +97,56 @@ console.log("Unidades vendidas:",unidadesVendidasM);
 
 //ventasPorCiudadM
 
-const ventasPorCiudadM = ventas.reduce((acc, v) => {
-  const monto = v.cantidad * v.precio;
-  acc[v.ciudad] = (acc[v.ciudad] || 0) + monto;
-  return acc;
-}, {});
+const ventasPorCiudadM = (ciudad) => {
+  const ciudadBuscada = normalizarTexto(ciudad);
+  const resultado = ventas
+    .filter((v) => normalizarTexto(v.ciudad) === ciudadBuscada)
+    .reduce((acc, v) => acc + valorVenta(v), 0);
+  console.log("Método ventasPorCiudadM:", resultado);
+  return resultado;
+};
 
-console.log(ventasPorCiudadM)
+console.log("Total ventas por ciudad (Bogotá):", ventasPorCiudadM("Bogotá "));
+
+// casa
+//unidadesPorProducto
+
+function unidadesPorProducto(ventas) {
+  return ventas.reduce((resumen, venta) => {
+    const producto = venta.producto;
+    const cantidad = Number(venta.cantidad) || 0;
+
+    resumen[producto] = (resumen[producto] || 0) + cantidad;
+    return resumen;
+  }, {});
+}
+
+console.log("Unidades por producto:", unidadesPorProducto(ventas));
+
+function topProductosPorValor(ventas, k) {
+  const porProducto = ventas.reduce((acc, v) => {
+    acc[v.producto] = (acc[v.producto] || 0) + valorVenta(v);
+    return acc;
+  }, {});
+
+  return Object.entries(porProducto)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, k);
+}
+console.log(" Top productos por valor: ", topProductosPorValor(ventas, 3))
+
+
+module.exports = {
+  totalVendido,
+  totalVendidoM,
+  unidadesVendidas,
+  unidadesVendidasM,
+  ventaMayor,
+  ticketPromedio,
+  ventasPorCiudad,
+  ventasPorCiudadM,
+  unidadesPorProducto,
+  topProductosPorValor,
+};
+
+// Minireto 4 dia 1

@@ -88,3 +88,47 @@ Casos borde detectados
 ## Conclusiones - Minireto 1 y Minireto 2
 
  Aún me estoy familiarizando con el funcionamiento de los métodos y las funciones. Me he apoyado en la IA y he investigado por mi cuenta para desglosar y entender la sintaxis, la lógica y el funcionamiento de cada recurso usado para manipular colecciones de arrays. Aunque todavía no lo domino por completo, entiendo cómo están representados los arrays y objetos, cómo importar y exportar módulos para trabajar los datos en distintos archivos, y cómo acceder a claves y valores para mostrarlos con console.log. En la parte de analítica todavía no logro construir todas las funciones desde cero por mi cuenta porque sigo afianzando la lógica de los ciclos, por lo que me apoyé en la IA para armarlas y luego desglosar cada parte y comprender qué hace cada instrucción.
+
+ ## Día 1 minireto 3
+
+ ¿Qué recorro? Recorro la lista de ventas (cada compra con su producto, ciudad, cantidad y precio) y, cuando armo topProductosPorValor(ventas, k), recorro cada producto con su total de dinero para ordenarlos de mayor a menor y quedarme con los k primeros.
+
+ ¿Qué filtro? En totalVendidoM, unidadesVendidasM, ventasPorCiudadM, totalPorCiudad(ventas), unidadesPorProducto(ventas) y topProductosPorValor(ventas, k) no saco filas antes de sumar; en analitica.js solo reviso cantidades mayores a cero para el ticket promedio y comparo la ciudad ya limpia.
+
+ ¿Qué transformo? En totalPorCiudad(ventas) limpio el texto de la ciudad quitando espacios y pasando todo a minúsculas para que "Bogotá" y "Bogotá " queden juntas; en totalVendidoM, ventasPorCiudadM y topProductosPorValor(ventas, k) saco el valor de cada venta multiplicando cantidad por precio; y en topProductosPorValor(ventas, k) convierto el objeto en pares con Object.entries() para ordenarlo sin tocar el arreglo original de ventas. 
+
+¿Qué acumulo? Sumo toda la plata vendida en totalVendidoM, todas las unidades en unidadesVendidasM, la plata por cada ciudad en ventasPorCiudadM y totalPorCiudad(ventas), las unidades por producto en unidadesPorProducto(ventas) y la plata por producto en topProductosPorValor(ventas, k).   
+
+¿Cómo agrupo? Uso .reduce() empezando en {} para ventasPorCiudadM, totalPorCiudad(ventas), unidadesPorProducto(ventas) y topProductosPorValor(ventas, k), poniendo la ciudad (ya limpia) o el producto como nombre de casilla para ir sumando ahí cada dato
+
+    Conclusiones
+
+    Hoy trabajé en analitica.js pasando funciones hechas con ciclos a métodos de arreglos. Primero convertí totalVendido, unidadesVendidas y ventasPorCiudad a versiones con .reduce() (totalVendidoM, unidadesVendidasM y ventasPorCiudadM). Después pasé a agrupaciones y rankings más completos.
+
+    En src/verificar.js comparé cada versión con ciclos contra su versión con métodos, usando los mismos datos. Cada comparación da "OK" o "DIFERENTE". Me sirvió porque al cambiar de sintaxis es fácil dañar la lógica sin darse cuenta, y así lo veo de una.
+
+    En totalPorCiudad y unidadesPorProducto vi que hay que normalizar los textos antes de agrupar. Si una ciudad aparece como "Bogotá" y otra vez con espacios de más o en minúscula, el programa las cuenta como grupos distintos. También entendí cómo funciona un objeto {} como acumulador dentro de .reduce(): cada clave va sumando unidades o dinero sin que tenga que crear una variable aparte por cada grupo.
+
+    En topProductosPorValor convertí el objeto agrupado en pares clave-valor con Object.entries(), lo ordené de mayor a menor con .sort() y me quedé con los k primeros usando .slice(). Tuve que tener cuidado de no modificar el arreglo original de ventas.
+
+    Usé la IA para armar estos puntos, pero sobre todo para que me explicara por dentro cómo funcionan estas funciones, casi palabra por palabra. Por ejemplo, en qué momento exacto se ejecuta una función auxiliar dentro de una suma, o cómo va pasando el acumulador en cada vuelta de .reduce(). Ir despacio así me ayudó a entender por qué está cada línea, y no solo a tener el código funcionando.
+
+
+## Día 1 minireto 4
+## Error 1: Ciudades repetidas al agrupar ("Medellín" y "medellín")
+* **Síntoma:** Al agrupar las ventas por ciudad, "Medellín" aparecía separada en dos grupos distintos ("Medellín" y "medellín") en lugar de sumar todo en uno solo.
+* **Entrada que lo produce:** El arreglo `ventas` de `datos.js`, donde hay registros con `"Medellín"` y otros con `"medellín"` (o textos con espacios sobrantes).
+* **Hipótesis:** Si el acumulador usa `v.ciudad` directamente como clave del objeto (`acc[v.ciudad]`), JavaScript trata `"Medellín"` y `"medellín"` como claves diferentes.
+* **Prueba realizada:** Se revisó la agrupación sin normalizar (`ventasPorCiudadM` tal cual) frente a agrupar usando `limpiarCiudad` dentro de `totalPorCiudad(ventas)`.
+* **Causa:** Usar el texto de la ciudad sin limpiar espacios ni unificar mayúsculas y minúsculas antes de agrupar.
+* **Corrección:** Se define `limpiarCiudad` para quitar espacios (`.trim()`) y dejar un formato uniforme antes de sumar en el objeto acumulador, y se llama a `totalPorCiudad(ventas)` en el reporte.
+
+---
+
+## Error 2: Ticket promedio `NaN` al calcular el promedio de un día sin ventas
+* **Síntoma:** Al sacar el ticket promedio de una fecha sin ventas, el resultado mostraba `NaN`.
+* **Entrada que lo produce:** Un conjunto de ventas vacío `[]`, como ocurre al filtrar un día sin ventas (por ejemplo, `"2026-09-10"` en `datos.js`).
+* **Hipótesis:** Dividir el total vendido entre la cantidad de ventas (`total / cantidadVentas`) cuando no hay ventas produce `0 / 0`, que en JavaScript da `NaN`.
+* **Prueba realizada:** Se evaluó `ventasDelDia(ventas, "2026-09-10")` (que entrega `cantidadVentas: 0`, `unidades: 0`, `total: 0`) y `ticketPromedio` en `analitica.js`, confirmando que devuelven `0` y no `NaN`.
+* **Causa:** Falta de validación para evitar dividir entre cero cuando el número de ventas es `0`.
+* **Corrección:** Validar que existan ventas (`cantidadVentas > 0` / `ventasValidas > 0`) antes de dividir y devolver `0` cuando no hay ventas, evitando `NaN`.
