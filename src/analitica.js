@@ -240,6 +240,86 @@ console.log(
     clientesRecurrentes(ventas)
 );
 
+
+// CLIENTES RECURRENTES UTILIZANDO SET
+
+function clientesRecurrentesSet(ventas) {
+
+    // Guardará todos los clientes que ya encontramos
+    const vistos = new Set();
+
+    // Guardará los clientes que aparecen más de una vez
+    const recurrentes = new Set();
+
+    // Recorrer todas las ventas
+    for (const venta of ventas) {
+
+        const cliente = venta.cliente;
+
+        // Comprobar si el cliente ya apareció
+        if (vistos.has(cliente)) {
+
+            // Si ya apareció, es recurrente
+            recurrentes.add(cliente);
+
+        } else {
+
+            // Si es la primera vez, lo registramos
+            vistos.add(cliente);
+
+        }
+    }
+
+    // Convertir el Set en un arreglo
+    return [...recurrentes];
+}
+
+
+// CONTAR COMPRAS POR CLIENTE UTILIZANDO MAP
+
+function comprasPorCliente(ventas) {
+
+    // Crear un Map vacío
+    const compras = new Map();
+
+    // Recorrer todas las ventas
+    for (const venta of ventas) {
+
+        const cliente = venta.cliente;
+
+        // Obtener la cantidad de compras actuales
+        const cantidadActual = compras.get(cliente) || 0;
+
+        // Sumar una compra al cliente
+        compras.set(cliente, cantidadActual + 1);
+    }
+
+    // Retornar el Map con los conteos
+    return compras;
+}
+
+
+// OBTENER CLIENTES RECURRENTES A PARTIR DEL MAP
+
+function clientesRecurrentesMap(ventas) {
+
+    const compras = comprasPorCliente(ventas);
+
+    const recurrentes = [];
+
+    // Recorrer los clientes y sus cantidades
+    for (const [cliente, cantidad] of compras) {
+
+        // Si tiene más de una compra, es recurrente
+        if (cantidad > 1) {
+            recurrentes.push(cliente);
+        }
+    }
+
+    return recurrentes;
+}
+
+
 // Total por ciudad usando map, filter, map y reduce
 function totalCiudadCadena(ventas, ciudad) {
   const ciudadBuscada = normalizarTexto(ciudad);
@@ -268,6 +348,8 @@ function totalCiudadUnaPasada(ventas, ciudad) {
   return total;
 }
 
+
+
 module.exports = {
   totalVendido,
   totalVendidoM,
@@ -285,7 +367,10 @@ module.exports = {
   primeraVenta,
   clientesRecurrentes,
   totalCiudadCadena,
-  totalCiudadUnaPasada
+  totalCiudadUnaPasada,
+  clientesRecurrentesSet,
+  comprasPorCliente,
+  clientesRecurrentesMap
   
 };
 

@@ -243,3 +243,54 @@ Por esta razón, solicité explicaciones adicionales para intentar comprender c�
 Dificultades identificadas
 
 La principal dificultad estuvo relacionada con la interpretación práctica de la notación Big O. Aunque puedo reconocer algunas complejidades, como O(n) y O(n²), todavía me cuesta comprender cómo se traducen en el rendimiento real de un programa y cómo determinar cuál es más eficiente al aumentar el volumen de datos.
+
+
+
+## Dia 3 Minireto 9
+
+Mediciones de rendimiento
+
+Se realizaron pruebas con 1.000, 10.000 y 100.000 ventas para evaluar el rendimiento de las tres implementaciones.
+
+Los tiempos se midieron utilizando performance.now() y se expresaron en milisegundos.
+
+    Resultados obtenidos
+
+    Casntidad de ventas         original (ms)        set(ms)     Map(ms)
+        1.000                        4.407            0.156       0.178  
+        10.000                      349.189           0.900       1.726
+        100.000                  no ejecutado         9.387       8.779
+
+La versión original no se ejecutó con 100.000 ventas debido a su complejidad cuadrática y al tiempo elevado que podría requerir.
+
+    Análisis de resultados
+
+Con 1.000 ventas, las implementaciones con Set y Map ya presentan tiempos inferiores a la versión original.
+
+Con 10.000 ventas, la diferencia aumenta considerablemente. La versión original tarda 349.189 ms, mientras que Set tarda 0.900 ms y Map 1.726 ms.
+
+Con 100.000 ventas, Set tarda 9.387 ms y Map 8.779 ms. Ambas soluciones cumplen el requisito del marketplace de responder en menos de un segundo.
+
+En esta ejecución, Map presentó el menor tiempo con 100.000 ventas, mientras que Set fue más rápido con 1.000 y 10.000 ventas.
+
+Los resultados demuestran que las soluciones optimizadas presentan un mejor comportamiento al aumentar la cantidad de registros.
+
+    Conclusión final
+
+Después de implementar y medir las soluciones con Set y Map, se comprobó que ambas permiten identificar los clientes recurrentes de manera mucho más eficiente que la versión original.
+
+La versión original utiliza complejidad O(n²), mientras que las nuevas implementaciones tienen complejidad temporal promedio O(n).
+
+En la prueba de 100.000 ventas, Set obtuvo un tiempo de 9.387 ms y Map de 8.779 ms, cumpliendo ampliamente el requisito de responder en menos de un segundo.
+
+La solución con Set es útil cuando solamente necesitamos identificar clientes recurrentes. La solución con Map permite además conocer cuántas compras realizó cada cliente.
+
+Aunque ambas soluciones utilizan memoria adicional, esta inversión permite reducir considerablemente el tiempo de ejecución.
+
+Por lo tanto, se logró el objetivo de optimización propuesto para el marketplace.
+
+
+
+        ¿Qué hizo la IA y que hice yo?
+
+Como mencioné en bitacoras de días anteriores, mi trabajo ha sido más de auditar que de escribir cada función o método manualmente, trato constantemente de analizar lo que me entrega la Ia, pero por cuestiones de tiempo siento que no he tenido manera de interiorizar del todo lo que la IA me entrega.
