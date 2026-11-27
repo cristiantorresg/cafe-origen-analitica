@@ -294,3 +294,70 @@ Por lo tanto, se logró el objetivo de optimización propuesto para el marketpla
         ¿Qué hizo la IA y que hice yo?
 
 Como mencioné en bitacoras de días anteriores, mi trabajo ha sido más de auditar que de escribir cada función o método manualmente, trato constantemente de analizar lo que me entrega la Ia, pero por cuestiones de tiempo siento que no he tenido manera de interiorizar del todo lo que la IA me entrega.
+
+
+
+## Dia 3 Minireto 10
+
+
+1. Combinación de productos para tarjeta regalo
+
+Representé el catálogo como un arreglo de objetos con el nombre y el precio de cada producto.
+
+Primero implementé una solución por fuerza bruta que utiliza dos ciclos para probar todas las parejas posibles. Su complejidad temporal es O(n²), porque compara cada producto con los siguientes.
+
+Después implementé una solución optimizada con Map. Para cada producto calculo el complemento, es decir, el valor que falta para alcanzar el precio de la tarjeta. Si ese precio ya existe en el mapa, encontré la pareja.
+
+
+Pruebas:
+
+$87.000: Origen Huila 500 g + Origen Sierra 500 g.
+
+$61.000: Origen Nariño 250 g + Taza de cerámica.
+
+$50.000: no existe combinación, devuelve null.
+
+Traza de la versión optimizada para $87.000
+
+    Paso	    Productoactual 	        Precio  	Complemento 	¿Está en el Map?
+    1	     Origen Nariño 250 g	    26.000	      61.000	            No
+    2	     Origen Huila 500 g	        42.000	      45.000	            No
+    3	     Origen Sierra 500 g	    45.000	      42.000	            Sí
+
+
+
+    Complejidad de la versión optimizada: O(n) en tiempo promedio, porque recorremos el catálogo una sola vez y las operaciones habituales de Map (has, get y set) son de tiempo promedio constante. El espacio adicional es O(n), porque podemos guardar los productos recorridos.
+
+
+2. Producto estrella por ciudad
+
+Implementé productoEstrellaPorCiudad(ventas) utilizando un mapa principal por ciudad y un mapa interno para contar las apariciones de cada producto.
+
+Después recorrí los conteos para identificar el producto con mayor frecuencia en cada ciudad.
+
+Su complejidad temporal es O(n + p) promedio, donde p representa las combinaciones distintas de ciudad y producto.
+
+3. Primer cliente que compró una sola vez
+
+Implementé primerClienteUnico(ventas) con dos recorridos y un Map.
+
+En el primer recorrido cuento cuántas veces aparece cada cliente. En el segundo recorro las ventas en su orden original y devuelvo el primer cliente cuyo conteo sea exactamente uno.
+
+Su complejidad temporal es O(n) promedio y espacial O(c), donde c es la cantidad de clientes distintos.
+
+## Complejidad de las tres funciones
+
+Función                         	Tiempo              	Espacio adicional
+comboRegaloFuerzaBruta	            O(n²)	                      O(1)
+comboRegalo	                        O(n) promedio	              O(n)
+productoEstrellaPorCiudad	        O(n + p) promedio	        O(n + p)
+primerClienteUnico	                O(n) promedio	              O(c)
+
+Donde:
+- n = cantidad de productos del catálogo o ventas, según la función.
+- p = cantidad de pares ciudad-producto distintos.
+- c = cantidad de clientes distintos.
+
+4. Conclusión
+
+Aprendí que Map permite optimizar búsquedas y conteos porque evita recorrer repetidamente los datos. La fuerza bruta es sencilla de implementar, pero puede ser mucho más lenta cuando aumenta la cantidad de elementos. Las soluciones optimizadas utilizan memoria adicional para reducir el tiempo de ejecución.

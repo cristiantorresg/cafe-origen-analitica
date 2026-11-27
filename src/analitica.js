@@ -1,4 +1,5 @@
 const ventas = require("./datos");
+const catalogo = require("./catalogo");
 // Total vendido ciclo for...
 const valorVenta = (venta) => venta.cantidad * venta.precio;
 
@@ -348,7 +349,124 @@ function totalCiudadUnaPasada(ventas, ciudad) {
   return total;
 }
 
+function comboRegaloFuerzaBruta(catalogo, valor) {
+  for (let i = 0; i < catalogo.length; i++) {
+    for (let j = i + 1; j < catalogo.length; j++) {
+      const suma = catalogo[i].precio + catalogo[j].precio;
 
+      if (suma === valor) {
+        return [catalogo[i], catalogo[j]];
+      }
+    }
+  }
+
+  return null;
+}
+/*Complejidad comboRegaloFuerzaBruta :
+Complejidad: O(n²) en tiempo, porque hay dos recorridos anidados. El espacio adicional es O(1), porque no creamos estructuras que crezcan con el catálogo.
+*/
+
+function comboRegalo(catalogo, valor) {
+  const preciosVistos = new Map();
+
+  for (const producto of catalogo) {
+    const complemento = valor - producto.precio;
+
+    if (preciosVistos.has(complemento)) {
+      return [
+        preciosVistos.get(complemento),
+        producto
+      ];
+    }
+
+    preciosVistos.set(producto.precio, producto);
+  }
+
+  return null;
+}
+
+//pruebas con 87.000, con 61.000 y con un valor sin combinación posible. 
+
+console.log("Tarjeta de 87.000:");
+console.log(comboRegalo(catalogo, 87000));
+
+console.log("Tarjeta de 61.000:");
+console.log(comboRegalo(catalogo, 61000));
+
+console.log("Tarjeta de 50.000:");
+console.log(comboRegalo(catalogo, 50000));
+
+function productoEstrellaPorCiudad(ventas) {
+  const conteos = new Map();
+
+  // Primer recorrido: contar productos por ciudad
+  for (const venta of ventas) {
+    const ciudad = venta.ciudad.trim().toLowerCase();
+    const producto = venta.producto;
+
+    if (!conteos.has(ciudad)) {
+      conteos.set(ciudad, new Map());
+    }
+
+    const productosCiudad = conteos.get(ciudad);
+
+    const cantidadActual = productosCiudad.get(producto) || 0;
+
+    productosCiudad.set(producto, cantidadActual + 1);
+  }
+
+  // Segundo recorrido: buscar el producto más frecuente
+  const resultado = [];
+
+  for (const [ciudad, productos] of conteos) {
+    let productoEstrella = null;
+    let mayorCantidad = 0;
+
+    for (const [producto, cantidad] of productos) {
+      if (cantidad > mayorCantidad) {
+        mayorCantidad = cantidad;
+        productoEstrella = producto;
+      }
+    }
+
+    resultado.push({
+      ciudad,
+      producto: productoEstrella,
+      apariciones: mayorCantidad
+    });
+  }
+
+  return resultado;
+}
+
+function primerClienteUnico(ventas) {
+  const conteos = new Map();
+
+  // Primer recorrido: contar compras por cliente
+  for (const venta of ventas) {
+    const cliente = venta.cliente;
+
+    const cantidadActual = conteos.get(cliente) || 0;
+
+    conteos.set(cliente, cantidadActual + 1);
+  }
+
+  // Segundo recorrido: encontrar el primer cliente único
+  for (const venta of ventas) {
+    const cliente = venta.cliente;
+
+    if (conteos.get(cliente) === 1) {
+      return cliente;
+    }
+  }
+
+  return null;
+}
+console.log("Producto estrella por ciudad:");
+console.table(productoEstrellaPorCiudad(ventas));
+
+console.log("Primer cliente que compró una sola vez:");
+console.log(primerClienteUnico(ventas));
 
 module.exports = {
   totalVendido,
@@ -370,8 +488,11 @@ module.exports = {
   totalCiudadUnaPasada,
   clientesRecurrentesSet,
   comprasPorCliente,
-  clientesRecurrentesMap
-  
+  clientesRecurrentesMap,
+  comboRegaloFuerzaBruta,
+  comboRegalo,
+  productoEstrellaPorCiudad,
+  primerClienteUnico
 };
 
 // Minireto 4 dia 1
