@@ -468,6 +468,129 @@ console.table(productoEstrellaPorCiudad(ventas));
 console.log("Primer cliente que compró una sola vez:");
 console.log(primerClienteUnico(ventas));
 
+
+
+function mejorSemanaBruta(dias, k) {
+  // Validar que k sea un número entero válido
+  if (!Number.isInteger(k) || k <= 0 || k > dias.length) {
+    return null;
+  }
+
+  let mejorTotal = -Infinity;
+  let mejorInicio = 0;
+
+  // Recorrer todas las ventanas posibles
+  for (let i = 0; i <= dias.length - k; i++) {
+    let total = 0;
+
+    // Sumar desde cero los k días de cada ventana
+    for (let j = i; j < i + k; j++) {
+      total += dias[j];
+    }
+
+    // Guardar la ventana con mayor suma
+    if (total > mejorTotal) {
+      mejorTotal = total;
+      mejorInicio = i;
+    }
+  }
+
+  return {
+    total: mejorTotal,
+    diaInicio: mejorInicio + 1,
+    diaFin: mejorInicio + k
+  };
+}
+
+
+
+function mejorSemana(dias, k) {
+  // Validar que k sea un número entero válido
+  if (!Number.isInteger(k) || k <= 0 || k > dias.length) {
+    return null;
+  }
+
+  // Calcular la primera ventana
+  let totalActual = 0;
+
+  for (let i = 0; i < k; i++) {
+    totalActual += dias[i];
+  }
+
+  let mejorTotal = totalActual;
+  let mejorInicio = 0;
+
+  // Deslizar la ventana por los días restantes
+  for (let i = k; i < dias.length; i++) {
+    // Restar el día que sale y sumar el que entra
+    totalActual = totalActual - dias[i - k] + dias[i];
+
+    // Actualizar el mejor resultado
+    if (totalActual > mejorTotal) {
+      mejorTotal = totalActual;
+      mejorInicio = i - k + 1;
+    }
+  }
+
+  return {
+    total: mejorTotal,
+    diaInicio: mejorInicio + 1,
+    diaFin: mejorInicio + k
+  };
+}
+
+
+// PAR DE PRODUCTOS MÁS CERCANO AL PRESUPUESTO
+
+function parMasCercano(precios, presupuesto) {
+  // Crear una copia ordenada de menor a mayor
+  const ordenados = [...precios].sort(
+    (a, b) => a.precio - b.precio
+  );
+
+  let izquierda = 0;
+  let derecha = ordenados.length - 1;
+
+  let mejorPar = null;
+  let mejorTotal = -Infinity;
+
+  // Recorrer el catálogo con dos punteros
+  while (izquierda < derecha) {
+    const suma =
+      ordenados[izquierda].precio +
+      ordenados[derecha].precio;
+
+    if (suma > presupuesto) {
+      // La suma es demasiado alta: reducir el precio mayor
+      derecha--;
+    } else {
+      // Guardar la pareja si mejora el total anterior
+      if (suma > mejorTotal) {
+        mejorTotal = suma;
+        mejorPar = [
+          ordenados[izquierda],
+          ordenados[derecha]
+        ];
+      }
+
+      // Intentar conseguir una suma mayor
+      izquierda++;
+    }
+  }
+
+  // Si ninguna pareja cumple el presupuesto
+  if (mejorPar === null) {
+    return null;
+  }
+
+  return {
+    productos: mejorPar,
+    total: mejorTotal,
+    presupuestoRestante: presupuesto - mejorTotal
+  };
+}
+
+
 module.exports = {
   totalVendido,
   totalVendidoM,
@@ -492,7 +615,10 @@ module.exports = {
   comboRegaloFuerzaBruta,
   comboRegalo,
   productoEstrellaPorCiudad,
-  primerClienteUnico
+  primerClienteUnico,
+  mejorSemanaBruta,
+  mejorSemana,
+  parMasCercano,
 };
 
 // Minireto 4 dia 1

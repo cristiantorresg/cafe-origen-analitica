@@ -361,3 +361,19 @@ Donde:
 4. Conclusión
 
 Aprendí que Map permite optimizar búsquedas y conteos porque evita recorrer repetidamente los datos. La fuerza bruta es sencilla de implementar, pero puede ser mucho más lenta cuando aumenta la cantidad de elementos. Las soluciones optimizadas utilizan memoria adicional para reducir el tiempo de ejecución.
+
+## Día 3 Minireto 11
+
+| Posición       | Rango       | Valores diarios                   | Total     |
+
+| **Posición 1** | Días 1 al 7 | 320, 410, 280, 390, 510, 620, 700 | **3.230** |
+| **Posición 2** | Días 2 al 8 | 410, 280, 390, 510, 620, 700, 300 | **3.210** |
+| **Posición 3** | Días 3 al 9 | 280, 390, 510, 620, 700, 300, 290 | **3.090** |
+
+Resultado final con los 30 días:
+Mejor semana encontrada
+$3.670.000
+Días 24 al 30 de septiembre
+
+Valores diarios: 440 + 500 + 590 + 650 + 720 + 400 + 370 = 3.670 (miles de pesos).
+
